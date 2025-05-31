@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>For Vanshika 💖</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      background-color: #ffe6f0;
+      color: #d63384;
+      text-align: center;
+      overflow-x: hidden;
+    }
+    h1, h2 {
+      margin-top: 50px;
+    }
+    .section {
+      padding: 60px 20px;
+    }
+    .heart {
+      font-size: 3rem;
+      animation: float 2s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+    }
+    .buttons button {
+      background-color: #ff69b4;
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      margin: 10px;
+      font-size: 1.2rem;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .buttons button:hover {
+      transform: scale(1.1);
+    }
+    .fireworks {
+      font-size: 2rem;
+      animation: pop 1s ease-in-out infinite alternate;
+    }
+    @keyframes pop {
+      from { opacity: 0.2; }
+      to { opacity: 1; }
+    }
+    .confetti {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 9999;
+    }
+    .typing {
+      width: 24ch;
+      animation: typing 4s steps(24), blink .5s step-end infinite alternate;
+      white-space: nowrap;
+      overflow: hidden;
+      border-right: 3px solid;
+      margin: auto;
+      font-size: 1.2rem;
+    }
+    @keyframes typing {
+      from { width: 0 }
+    }
+    @keyframes blink {
+      50% { border-color: transparent }
+    }
+  </style>
+</head>
+<body>
+  <audio autoplay loop>
+    <source src="https://www.computerhope.com/jargon/m/example.mp3" type="audio/mpeg">
+  </audio>
+
+  <div class="section">
+    <h1>Hi Vanshika 💖</h1>
+    <p>I made this just for you...</p>
+    <div class="heart">💗 💗 💗</div>
+  </div>
+
+  <div class="section">
+    <h2 class="typing">From the Bottom of My Heart</h2>
+    <p>
+      I don’t know how to say this perfectly,<br>
+      But every moment with you feels magical. ✨<br>
+      Your smile lights up my world,<br>
+      And your voice is my favorite melody. 🎶<br><br>
+      You are the sunshine to my every cloudy day,<br>
+      And I just want to say... 💕
+    </p>
+  </div>
+
+  <div class="section">
+    <h2>Our Little Journey 💫</h2>
+    <p>
+      🌸 First time I saw you — butterflies.<br>
+      🎉 Every chat — unforgettable.<br>
+      😍 Every moment — a memory.<br>
+      🌹 Every thought — it’s you.<br>
+    </p>
+  </div>
+
+  <div class="section">
+    <h2>One Last Question...</h2>
+    <h1>Will you be mine forever? 💍</h1>
+    <div class="buttons">
+      <button onclick="showLove('Yes 💖')">Yes 💖</button>
+      <button onclick="showLove('No 😢')">No 😢</button>
+    </div>
+  </div>
+
+  <div class="section" id="final" style="display: none;">
+    <canvas class="confetti" id="confetti-canvas"></canvas>
+    <div class="fireworks">🎆 🎇 🎆 🎇</div>
+    <h1>I love you, Vanshika 💞</h1>
+    <p>Forever yours ❤️</p>
+    <p id="response-log"></p>
+  </div>
+
+  <div class="section" id="note-section">
+    <h2>💬 Our Love Notes</h2>
+    <div id="chat-box" style="max-width: 600px; margin: auto; text-align: left; padding: 20px; background: #fff0f5; border-radius: 15px; min-height: 150px;"></div>
+    <br>
+    <select id="sender" style="padding: 8px; border-radius: 10px;">
+      <option value="Vanshika">💖 Vanshika</option>
+      <option value="You">🧑‍💻 You</option>
+    </select>
+    <br><br>
+    <textarea id="note-input" rows="4" placeholder="Write something sweet 💌..." style="width: 90%; max-width: 500px; padding: 10px; border-radius: 10px; border: 1px solid #ccc;"></textarea>
+    <br><br>
+    <button onclick="saveUserNote()">Send 💌</button>
+    <button onclick="clearChat()" style="background-color:#ff4d4d; color:white; margin-left:10px;">Clear Chat ❌</button>
+    <p id="save-status" style="margin-top: 10px; color: green;"></p>
+  </div>
+
+  <script>
+    let chatMessages = JSON.parse(localStorage.getItem("vanshikaChat")) || [];
+    let responses = JSON.parse(localStorage.getItem("proposalResponses")) || [];
+
+    function showLove(answer) {
+      document.getElementById('final').style.display = 'block';
+      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+
+      responses.push({ response: answer, time: new Date().toLocaleString() });
+      localStorage.setItem("proposalResponses", JSON.stringify(responses));
+      document.getElementById("response-log").innerText = `Your response was: ${answer}`;
+
+      const confettiCanvas = document.getElementById('confetti-canvas');
+      confettiCanvas.width = window.innerWidth;
+      confettiCanvas.height = window.innerHeight;
+      const ctx = confettiCanvas.getContext('2d');
+      const pieces = Array.from({length: 100}, () => ({
+        x: Math.random() * confettiCanvas.width,
+        y: Math.random() * confettiCanvas.height,
+        radius: Math.random() * 6 + 4,
+        color: `hsl(${Math.random() * 360}, 100%, 75%)`,
+        dx: Math.random() - 0.5,
+        dy: Math.random() * 2 + 1
+      }));
+
+      function drawConfetti() {
+        ctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+        for (let p of pieces) {
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+          ctx.fillStyle = p.color;
+          ctx.fill();
+          p.x += p.dx;
+          p.y += p.dy;
+          if (p.y > confettiCanvas.height) p.y = 0;
+        }
+        requestAnimationFrame(drawConfetti);
+      }
+      drawConfetti();
+    }
+
+    function saveUserNote() {
+      const input = document.getElementById("note-input").value.trim();
+      const sender = document.getElementById("sender").value;
+
+      if (input) {
+        const newMessage = {
+          sender: sender,
+          message: input,
+          time: new Date().toLocaleString()
+        };
+        chatMessages.push(newMessage);
+        localStorage.setItem("vanshikaChat", JSON.stringify(chatMessages));
+        document.getElementById("note-input").value = "";
+        document.getElementById("save-status").textContent = "Message sent! 💌";
+        showChat();
+      } else {
+        document.getElementById("save-status").textContent = "Please write something!";
+      }
+    }
+
+    function showChat() {
+      const box = document.getElementById("chat-box");
+      box.innerHTML = "";
+      chatMessages.forEach(msg => {
+        const div = document.createElement("div");
+        div.style.margin = "10px 0";
+        div.innerHTML = `
+          <div style="background: ${msg.sender === 'Vanshika' ? '#ffb6c1' : '#d1e7dd'}; padding: 10px 15px; border-radius: 15px; display: inline-block; max-width: 80%;">
+            <strong>${msg.sender}:</strong><br>${msg.message}
+          </div>
+          <div style="font-size: 0.8rem; color: gray; margin-top: 2px;">${msg.time}</div>
+        `;
+        box.appendChild(div);
+      });
+      box.scrollTop = box.scrollHeight;
+    }
+
+    function clearChat() {
+      if (confirm("Are you sure you want to clear the chat?")) {
+        chatMessages = [];
+        localStorage.removeItem("vanshikaChat");
+        showChat();
+        document.getElementById("save-status").textContent = "Chat cleared!";
+      }
+    }
+
+    window.addEventListener("DOMContentLoaded", showChat);
+  </script>
+</body>
+</html>
